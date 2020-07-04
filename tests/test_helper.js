@@ -1,5 +1,6 @@
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const bcrypt = require('bcrypt')
 
 const initialBlogs = [{
 	title: "React patterns",
@@ -38,6 +39,24 @@ const initialBlogs = [{
 	likes: 2
 }]
 
+const testUsers = async () => {
+	const saltRounds = 10
+	const passwordHash = await bcrypt.hash('password', saltRounds)
+
+	return [
+		{
+			name: 'tero testaaja',
+			username: 'testuser1',
+			passwordHash
+		},
+		{
+			name: 'tiina testaaja',
+			username: 'testuser2',
+			passwordHash
+		}
+	]
+}
+
 const nonExistingId = async () => {
   const blog = new Blog({
     title: "remove",
@@ -65,5 +84,6 @@ module.exports = {
 	initialBlogs,
 	nonExistingId,
 	blogsInDb,
-	usersInDb
+	usersInDb,
+	testUsers
 }
